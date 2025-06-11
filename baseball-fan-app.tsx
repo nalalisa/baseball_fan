@@ -2706,6 +2706,26 @@ function MyPage() {
     )
   }
 
+  // 마이페이지 프로필 카드 및 월별 리포트에 상세 통계 추가
+  // 예시 데이터
+  const myFanStats = {
+    comments: 52,
+    communityPosts: 12,
+    communityLikes: 134,
+    predictionChange: 8, // %
+    avgPostsPerDay: 0.4,
+    avgCommentsPerDay: 1.7,
+    avgPredictionsPerDay: 1.2,
+    bestDay: '토요일',
+    bestTime: '20~22시',
+    rankChange: 4, // +4
+    totalPoints: 2350,
+    totalBadges: 7,
+    keywords: ['홈런', '응원', '분석', '직관'],
+    bestFriends: ['야구매니아', '직관러버'],
+    weekActivity: [3, 5, 2, 6, 4, 7, 8], // 최근 7일 활동
+  };
+
   return (
     <div className="space-y-4">
       <h2 className="text-xl font-bold">👤 마이페이지</h2>
@@ -2770,6 +2790,135 @@ function MyPage() {
               <p className="text-xs text-gray-500 mt-1">
                 {isPremium ? "프리미엄 레벨까지 150P" : "다음 레벨까지 350P"}
               </p>
+            </div>
+          </div>
+          {/* 프로필 카드 하단에 추가 */}
+          {isPremium && (
+            <div className="grid grid-cols-2 gap-4 mt-4">
+              <div className="p-3 bg-blue-50 rounded">
+                <div className="text-xs text-gray-500">작성 댓글</div>
+                <div className="text-xl font-bold">{myFanStats.comments}개</div>
+              </div>
+              <div className="p-3 bg-green-50 rounded">
+                <div className="text-xs text-gray-500">커뮤니티 글</div>
+                <div className="text-xl font-bold">{myFanStats.communityPosts}개</div>
+              </div>
+              <div className="p-3 bg-yellow-50 rounded">
+                <div className="text-xs text-gray-500">받은 좋아요</div>
+                <div className="text-xl font-bold">{myFanStats.communityLikes}개</div>
+              </div>
+              <div className="p-3 bg-purple-50 rounded">
+                <div className="text-xs text-gray-500">예측 성공률 변화</div>
+                <div className="text-xl font-bold text-green-600">+{myFanStats.predictionChange}%</div>
+              </div>
+              <div className="p-3 bg-pink-50 rounded">
+                <div className="text-xs text-gray-500">일일 평균 글</div>
+                <div className="text-xl font-bold">{myFanStats.avgPostsPerDay}</div>
+              </div>
+              <div className="p-3 bg-pink-50 rounded">
+                <div className="text-xs text-gray-500">일일 평균 댓글</div>
+                <div className="text-xl font-bold">{myFanStats.avgCommentsPerDay}</div>
+              </div>
+              <div className="p-3 bg-pink-50 rounded">
+                <div className="text-xs text-gray-500">일일 평균 예측</div>
+                <div className="text-xl font-bold">{myFanStats.avgPredictionsPerDay}</div>
+              </div>
+              <div className="p-3 bg-orange-50 rounded">
+                <div className="text-xs text-gray-500">팬랭킹 변화</div>
+                <div className="text-xl font-bold text-blue-600">▲{myFanStats.rankChange}</div>
+              </div>
+              <div className="p-3 bg-gray-50 rounded">
+                <div className="text-xs text-gray-500">누적 포인트</div>
+                <div className="text-xl font-bold">{myFanStats.totalPoints}P</div>
+              </div>
+              <div className="p-3 bg-gray-50 rounded">
+                <div className="text-xs text-gray-500">누적 뱃지</div>
+                <div className="text-xl font-bold">{myFanStats.totalBadges}개</div>
+              </div>
+              <div className="p-3 bg-indigo-50 rounded col-span-2">
+                <div className="text-xs text-gray-500">최다 활동 요일/시간대</div>
+                <div className="text-lg font-bold">{myFanStats.bestDay} / {myFanStats.bestTime}</div>
+              </div>
+              <div className="p-3 bg-cyan-50 rounded col-span-2">
+                <div className="text-xs text-gray-500">가장 많이 쓴 키워드</div>
+                <div className="flex gap-2 flex-wrap mt-1">
+                  {myFanStats.keywords.map((k) => <span key={k} className="bg-cyan-200 text-cyan-800 rounded px-2 py-0.5 text-xs font-semibold">{k}</span>)}
+                </div>
+              </div>
+              <div className="p-3 bg-lime-50 rounded col-span-2">
+                <div className="text-xs text-gray-500">가장 많이 소통한 팬</div>
+                <div className="flex gap-2 flex-wrap mt-1">
+                  {myFanStats.bestFriends.map((f) => <span key={f} className="bg-lime-200 text-lime-800 rounded px-2 py-0.5 text-xs font-semibold">{f}</span>)}
+                </div>
+              </div>
+              <div className="p-3 bg-yellow-50 rounded col-span-2">
+                <div className="text-xs text-gray-500 mb-1">최근 7일 활동</div>
+                <div className="flex items-end gap-1 h-16">
+                  {myFanStats.weekActivity.map((v, i) => (
+                    <div key={i} className="flex-1 flex flex-col items-center">
+                      <div className="w-4 bg-yellow-400 rounded-t" style={{ height: `${v * 10}px` }}></div>
+                      <div className="text-[10px] mt-1">{i+1}일</div>
+                    </div>
+                  ))}
+                </div>
+              </div>
+            </div>
+          )}
+        </CardContent>
+      </Card>
+
+      {/* 획득 뱃지 섹션 */}
+      <Card>
+        <CardContent className="p-4">
+          <h3 className="font-bold text-lg mb-4">🏆 획득 뱃지</h3>
+          <div className="grid grid-cols-4 gap-3">
+            <div className="flex flex-col items-center p-3 bg-yellow-50 rounded-lg">
+              <div className="w-12 h-12 bg-yellow-200 rounded-full flex items-center justify-center mb-2">
+                <span className="text-2xl">⭐</span>
+              </div>
+              <span className="text-sm font-medium text-center">첫 게시글</span>
+            </div>
+            <div className="flex flex-col items-center p-3 bg-blue-50 rounded-lg">
+              <div className="w-12 h-12 bg-blue-200 rounded-full flex items-center justify-center mb-2">
+                <span className="text-2xl">🎯</span>
+              </div>
+              <span className="text-sm font-medium text-center">예측왕</span>
+            </div>
+            <div className="flex flex-col items-center p-3 bg-green-50 rounded-lg">
+              <div className="w-12 h-12 bg-green-200 rounded-full flex items-center justify-center mb-2">
+                <span className="text-2xl">💬</span>
+              </div>
+              <span className="text-sm font-medium text-center">댓글왕</span>
+            </div>
+            <div className="flex flex-col items-center p-3 bg-purple-50 rounded-lg">
+              <div className="w-12 h-12 bg-purple-200 rounded-full flex items-center justify-center mb-2">
+                <span className="text-2xl">👑</span>
+              </div>
+              <span className="text-sm font-medium text-center">프리미엄</span>
+            </div>
+            <div className="flex flex-col items-center p-3 bg-pink-50 rounded-lg">
+              <div className="w-12 h-12 bg-pink-200 rounded-full flex items-center justify-center mb-2">
+                <span className="text-2xl">❤️</span>
+              </div>
+              <span className="text-sm font-medium text-center">인기글</span>
+            </div>
+            <div className="flex flex-col items-center p-3 bg-orange-50 rounded-lg">
+              <div className="w-12 h-12 bg-orange-200 rounded-full flex items-center justify-center mb-2">
+                <span className="text-2xl">📝</span>
+              </div>
+              <span className="text-sm font-medium text-center">작성왕</span>
+            </div>
+            <div className="flex flex-col items-center p-3 bg-gray-50 rounded-lg">
+              <div className="w-12 h-12 bg-gray-200 rounded-full flex items-center justify-center mb-2">
+                <span className="text-2xl">🎮</span>
+              </div>
+              <span className="text-sm font-medium text-center">게임왕</span>
+            </div>
+            <div className="flex flex-col items-center p-3 bg-cyan-50 rounded-lg">
+              <div className="w-12 h-12 bg-cyan-200 rounded-full flex items-center justify-center mb-2">
+                <span className="text-2xl">🌟</span>
+              </div>
+              <span className="text-sm font-medium text-center">신인왕</span>
             </div>
           </div>
         </CardContent>
